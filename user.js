@@ -628,15 +628,8 @@ user_pref("browser.shell.shortcutFavicons", false);
 user_pref("alerts.showFavicons", false); // [DEFAULT: false]
 
 /*** [SECTION 1200]: HTTPS (SSL/TLS / OCSP / CERTS / HPKP / CIPHERS)
-   Note that your cipher and other settings can be used server side as a fingerprint attack
-   vector, see [1] (It's quite technical but the first part is easy to understand
-   and you can stop reading when you reach the second section titled "Enter Bro")
-
-   Option 1: Use defaults for ciphers (1260's). There is nothing *weak* about these, but
-             due to breakage, browsers can't deprecate them until the web stops using them
-   Option 2: Disable the ciphers in 1261, 1262 and 1263. These shouldn't break anything.
-             Optionally, disable the ciphers in 1264.
-
+   Your cipher and other settings can be used in server side fingerprinting
+   [TEST] https://www.ssllabs.com/ssltest/viewMyClient.html
    [1] https://www.securityartwork.es/2017/02/02/tls-client-fingerprinting-with-bro/
 ***/
 user_pref("_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
@@ -730,7 +723,7 @@ user_pref("security.mixed_content.block_display_content", true);
  * [1] https://bugzilla.mozilla.org/1190623 ***/
 user_pref("security.mixed_content.block_object_subrequest", true);
 
-/** CIPHERS [see the section 1200 intro] ***/
+/** CIPHERS [WARNING: do not meddle with your cipher suite: see the section 1200 intro] ***/
 /* 1261: disable 3DES (effective key size < 128)
  * [1] https://en.wikipedia.org/wiki/3des#Security
  * [2] https://en.wikipedia.org/wiki/Meet-in-the-middle_attack
@@ -892,11 +885,14 @@ user_pref("_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
  * [1] https://www.privacytools.io/#webrtc ***/
 user_pref("media.peerconnection.enabled", false);
 /* 2002: limit WebRTC IP leaks if using WebRTC
+ * In FF70+ these settings match Mode 4 (Mode 3 in older versions) (see [3])
  * [TEST] https://browserleaks.com/webrtc
- * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1189041,1297416
- * [2] https://wiki.mozilla.org/Media/WebRTC/Privacy ***/
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1189041,1297416,1452713
+ * [2] https://wiki.mozilla.org/Media/WebRTC/Privacy
+ * [3] https://tools.ietf.org/html/draft-ietf-rtcweb-ip-handling-12#section-5.2 ***/
 user_pref("media.peerconnection.ice.default_address_only", true);
 user_pref("media.peerconnection.ice.no_host", true); // [FF51+]
+user_pref("media.peerconnection.ice.proxy_only_if_behind_proxy", true); // [FF70+]
 /* 2010: disable WebGL (Web Graphics Library)
  * [SETUP-WEB] When disabled, may break some websites. When enabled, provides high entropy,
  * especially with readPixels(). Some of the other entropy is lessened with RFP (see 4501)
