@@ -483,8 +483,9 @@ user_pref("layout.css.visited_links_enabled", false);
 /* [NOTE] Both must be true for the location bar to work
  * [SETUP-CHROME] Change these if you trust and use a privacy respecting search engine
  * [SETTING] Search>Provide search suggestions | Show search suggestions in address bar results ***/
-user_pref("browser.search.suggest.enabled", false);
-user_pref("browser.urlbar.suggest.searches", false);
+// PETE EDIT
+//user_pref("browser.search.suggest.enabled", false);
+//user_pref("browser.urlbar.suggest.searches", false);
 /* 0809: disable location bar suggesting "preloaded" top websites [FF54+]
  * [1] https://bugzilla.mozilla.org/1211726 ***/
 user_pref("browser.urlbar.usepreloadedtopurls.enabled", false);
@@ -581,7 +582,8 @@ user_pref("_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is m
  * [SETUP-PERF] If you think disk cache may help (heavy tab user, high-res video),
  * or you use a hardened Temporary Containers, then feel free to override this
  * [NOTE] We also clear cache on exiting Firefox (see 2803) ***/
-user_pref("browser.cache.disk.enable", false);
+// PETE EDIT
+// user_pref("browser.cache.disk.enable", false);
 /* 1003: disable memory cache
 /* capacity: -1=determine dynamically (default), 0=none, n=memory capacity in kilobytes ***/
    // user_pref("browser.cache.memory.enable", false);
@@ -626,8 +628,15 @@ user_pref("browser.shell.shortcutFavicons", false);
 user_pref("alerts.showFavicons", false); // [DEFAULT: false]
 
 /*** [SECTION 1200]: HTTPS (SSL/TLS / OCSP / CERTS / HPKP / CIPHERS)
-   Your cipher and other settings can be used in server side fingerprinting
-   [TEST] https://www.ssllabs.com/ssltest/viewMyClient.html
+   Note that your cipher and other settings can be used server side as a fingerprint attack
+   vector, see [1] (It's quite technical but the first part is easy to understand
+   and you can stop reading when you reach the second section titled "Enter Bro")
+
+   Option 1: Use defaults for ciphers (1260's). There is nothing *weak* about these, but
+             due to breakage, browsers can't deprecate them until the web stops using them
+   Option 2: Disable the ciphers in 1261, 1262 and 1263. These shouldn't break anything.
+             Optionally, disable the ciphers in 1264.
+
    [1] https://www.securityartwork.es/2017/02/02/tls-client-fingerprinting-with-bro/
 ***/
 user_pref("_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
@@ -721,7 +730,7 @@ user_pref("security.mixed_content.block_display_content", true);
  * [1] https://bugzilla.mozilla.org/1190623 ***/
 user_pref("security.mixed_content.block_object_subrequest", true);
 
-/** CIPHERS [WARNING: do not meddle with your cipher suite: see the section 1200 intro] ***/
+/** CIPHERS [see the section 1200 intro] ***/
 /* 1261: disable 3DES (effective key size < 128)
  * [1] https://en.wikipedia.org/wiki/3des#Security
  * [2] https://en.wikipedia.org/wiki/Meet-in-the-middle_attack
@@ -761,7 +770,8 @@ user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
  * This can limit most (but not all) JS font enumeration which is a high entropy fingerprinting vector
  * [SETUP-WEB] Disabling fonts can uglify the web a fair bit.
  * [SETTING] General>Language and Appearance>Fonts & Colors>Advanced>Allow pages to choose... ***/
-user_pref("browser.display.use_document_fonts", 0);
+// PETE EDIT
+// user_pref("browser.display.use_document_fonts", 0);
 /* 1403: disable icon fonts (glyphs) and local fallback rendering
  * [1] https://bugzilla.mozilla.org/789788
  * [2] https://trac.torproject.org/projects/tor/ticket/8455 ***/
@@ -882,14 +892,11 @@ user_pref("_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
  * [1] https://www.privacytools.io/#webrtc ***/
 user_pref("media.peerconnection.enabled", false);
 /* 2002: limit WebRTC IP leaks if using WebRTC
- * In FF70+ these settings match Mode 4 (Mode 3 in older versions) (see [3])
  * [TEST] https://browserleaks.com/webrtc
- * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1189041,1297416,1452713
- * [2] https://wiki.mozilla.org/Media/WebRTC/Privacy
- * [3] https://tools.ietf.org/html/draft-ietf-rtcweb-ip-handling-12#section-5.2 ***/
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1189041,1297416
+ * [2] https://wiki.mozilla.org/Media/WebRTC/Privacy ***/
 user_pref("media.peerconnection.ice.default_address_only", true);
 user_pref("media.peerconnection.ice.no_host", true); // [FF51+]
-user_pref("media.peerconnection.ice.proxy_only_if_behind_proxy", true); // [FF70+]
 /* 2010: disable WebGL (Web Graphics Library)
  * [SETUP-WEB] When disabled, may break some websites. When enabled, provides high entropy,
  * especially with readPixels(). Some of the other entropy is lessened with RFP (see 4501)
@@ -1459,7 +1466,8 @@ user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // [HIDDE
  * not taking anti-fingerprinting seriously and a little visual change upsets you, then feel free to flip this pref
  * [WARNING] The dimension pref is only meant for testing, and we recommend you DO NOT USE it
  * [1] https://bugzilla.mozilla.org/1407366 ***/
-user_pref("privacy.resistFingerprinting.letterboxing", true); // [HIDDEN PREF]
+// PETE EDIT
+//user_pref("privacy.resistFingerprinting.letterboxing", true); // [HIDDEN PREF]
    // user_pref("privacy.resistFingerprinting.letterboxing.dimensions", ""); // [HIDDEN PREF]
 /* 4510: disable showing about:blank as soon as possible during startup [FF60+]
  * When default true (FF62+) this no longer masks the RFP chrome resizing activity
@@ -1621,7 +1629,8 @@ user_pref("_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
    // user_pref("view_source.tab", false); // view "page/selection source" in a new window [FF68+, FF59 and under]
 /* UX: FEATURES: disable and hide the icons and menus ***/
    // user_pref("browser.messaging-system.whatsNewPanel.enabled", false); // What's New [FF69+]
-   // user_pref("extensions.pocket.enabled", false); // Pocket Account [FF46+]
+   // PETE EDIT
+      user_pref("extensions.pocket.enabled", false); // Pocket Account [FF46+]
    // user_pref("identity.fxaccounts.enabled", false); // Firefox Accounts & Sync [FF60+] [RESTART]
    // user_pref("reader.parse-on-load.enabled", false); // Reader View
 /* OTHER ***/
